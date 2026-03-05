@@ -1,5 +1,8 @@
 # SteamGridDB Link
 
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![Lint](https://img.shields.io/github/actions/workflow/status/savagecore/userscripts/lint.yml?branch=main&label=lint&style=flat-square)](https://github.com/savagecore/userscripts/actions/workflows/lint.yml)
+
 [[Changelog](./CHANGELOG.md)]
 
 Adds a button to GGn, PCGamingWiki, Steam store pages, and SteamDB linking directly to the corresponding game on [SteamGridDB](https://www.steamgriddb.com/).
