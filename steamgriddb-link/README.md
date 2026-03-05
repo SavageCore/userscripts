@@ -2,7 +2,7 @@
 
 [[Changelog](./CHANGELOG.md)]
 
-Adds a button to PCGamingWiki, Steam store pages, and SteamDB linking directly to the corresponding game on [SteamGridDB](https://www.steamgriddb.com/).
+Adds a button to GGn, PCGamingWiki, Steam store pages, and SteamDB linking directly to the corresponding game on [SteamGridDB](https://www.steamgriddb.com/).
 
 ## Features
 
@@ -21,7 +21,7 @@ Adds a button to PCGamingWiki, Steam store pages, and SteamDB linking directly t
 
 To set your SteamGridDB API key:
 
-1. Open any PCGamingWiki, Steam, or SteamDB page.
+1. Open any GGn, PCGamingWiki, Steam, or SteamDB page.
 2. Open your userscript manager's menu (e.g., click the Violentmonkey icon).
 3. Select **"Set SteamGridDB API Key"**.
 4. Enter your key and the page will reload.

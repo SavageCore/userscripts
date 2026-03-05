@@ -11,14 +11,15 @@ export default defineConfig({
         namespace: "https://github.com/savagecore",
         icon: "https://www.steamgriddb.com/static/img/logo-512.png",
         match: [
+          "*://gazellegames.net/torrents.php*",
           "*://store.steampowered.com/app/*",
           "*://steamdb.info/app/*",
           "*://www.pcgamingwiki.com/wiki/*",
         ],
-        description: "Adds a link to SteamGridDB on Steam store pages",
+        description:
+          "Adds a link to SteamGridDB on Steam store pages, SteamDB, PCGamingWiki, and GGn",
         author: "savagecore",
         grant: [
-          "GM_addElement",
           "GM_setValue",
           "GM_getValue",
           "GM_registerMenuCommand",

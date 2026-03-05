@@ -3,15 +3,15 @@
 // @namespace    https://github.com/savagecore
 // @version      0.1.0
 // @author       savagecore
-// @description  Adds a link to SteamGridDB on Steam store pages
+// @description  Adds a link to SteamGridDB on Steam store pages, SteamDB, PCGamingWiki, and GGn
 // @icon         https://www.steamgriddb.com/static/img/logo-512.png
 // @downloadURL  https://github.com/savagecore/userscripts/raw/main/steamgriddb-link/dist/steamgriddb-link.user.js
 // @updateURL    https://github.com/savagecore/userscripts/raw/main/steamgriddb-link/dist/steamgriddb-link.user.js
+// @match        *://gazellegames.net/torrents.php*
 // @match        *://store.steampowered.com/app/*
 // @match        *://steamdb.info/app/*
 // @match        *://www.pcgamingwiki.com/wiki/*
 // @connect      www.steamgriddb.com
-// @grant        GM_addElement
 // @grant        GM_getValue
 // @grant        GM_registerMenuCommand
 // @grant        GM_setValue
@@ -25,8 +25,75 @@
   var _GM_registerMenuCommand = (() => typeof GM_registerMenuCommand != "undefined" ? GM_registerMenuCommand : void 0)();
   var _GM_setValue = (() => typeof GM_setValue != "undefined" ? GM_setValue : void 0)();
   var _GM_xmlhttpRequest = (() => typeof GM_xmlhttpRequest != "undefined" ? GM_xmlhttpRequest : void 0)();
-  const SGDB_ICON = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAfUlEQVQ4jWP8//8/AyWAiSLd1DCA0SC6khw/MJ5f0sbAwMDAwMLAwMAgrmNNqgH/GRgYGOEGMDAwMEjo2pBkQsLWj/8XePMzsiAL3t61iCRDrHcx/B/4WKCKAYwUu+DllaNkG8L4//9/Bo+OrQwMDAwMn5/fIzlRMQ79zAQAiWAfAVkuUd4AAAAASUVORK5CYII=";
+  const SGDB_ICON = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAMAAABrrFhUAAAALVBMVEUlKzA6bpIwW3lHh7RftPAkJihOlMRUntMiHx0fFgsrRlkwUWhGfKNkvv0eEAAeEObfAAABOUlEQVR4nO3dSQqDQBCGUTMZp3j/42aZdiMODVKp927wf6sCoW0aAAAAAAAAAAAAAAAAAAAAAAAA/sgrnMr779EMdQsIcPWe3QQQQAABBEgdoCvUDvAIpj1fIHaAhwACCCCAAJkDzKePgpUA7wCm0qECKwGewXx6AQQQQAABBMgbYD7y/WhjgHcbwDAWthbYGKC9RSOAAAIIIIAAAggggAACCCCAAAIIIIAAAggggAACCCCAAAIIIIAAAggggAACCCCAAAIIIIAAAggggAACCCCAAFkDDKWEARYPKnYZA5QEEEAAAQRIHaBNHmB5Fn7yBVhcRXPGAKVeAAEEEECA1AEKGQM0/c88XL1nt8rvT49X79lNAAEEEEAAAfIGmGr/kCqcuvsBAAAAAAAAAAAAAAAAAAAAAAC41hcOlaQLJD9URwAAAABJRU5ErkJggg==";
   const configs = [
+    {
+      hostname: "gazellegames.net",
+      getAppId: () => {
+        const steamLink = document.querySelector(
+          'a[href*="store.steampowered.com/app/"]'
+        );
+        if (steamLink) {
+          const match = steamLink.href.match(/\/app\/(\d+)/);
+          if (match) return match[1];
+        }
+        return null;
+      },
+      inject: (link) => {
+        const container = document.querySelector("#weblinksdiv .body");
+        if (container) {
+          console.log("[SGDB Link] Injecting link on GGn");
+          const a = document.createElement("a");
+          a.href = link;
+          a.title = "SteamGridDB";
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          const div = document.createElement("div");
+          div.className = "weblinks tilt";
+          div.style.backgroundImage = `url(${SGDB_ICON})`;
+          div.style.backgroundSize = "48px";
+          div.style.backgroundRepeat = "no-repeat";
+          div.style.backgroundPosition = "center";
+          div.style.width = "48px";
+          div.style.height = "48px";
+          a.appendChild(div);
+          container.appendChild(a);
+        }
+      }
+    },
+    {
+      hostname: "www.pcgamingwiki.com",
+      getAppId: () => {
+        const steamLinks = document.querySelectorAll(
+          'a[href*="store.steampowered.com/app/"]'
+        );
+        for (const link of steamLinks) {
+          const match = link.href.match(/\/app\/(\d+)/);
+          if (match) return match[1];
+        }
+        return null;
+      },
+      inject: (link) => {
+        const container = document.querySelector(".template-infobox-icons");
+        if (container) {
+          console.log("[SGDB Link] Injecting link on PCGamingWiki");
+          const btn = document.createElement("a");
+          btn.href = link;
+          btn.target = "_blank";
+          btn.className = "svg-icon template-infobox-icon";
+          btn.title = "View on SteamGridDB";
+          const span = document.createElement("span");
+          const img = document.createElement("img");
+          img.className = "ico16";
+          img.src = SGDB_ICON;
+          img.style.width = "16px";
+          img.style.height = "16px";
+          span.appendChild(img);
+          btn.appendChild(span);
+          container.appendChild(btn);
+        }
+      }
+    },
     {
       hostname: "store.steampowered.com",
       getAppId: () => {
@@ -105,39 +172,6 @@
           span.appendChild(img);
           btn.appendChild(span);
           container.insertAdjacentElement("afterbegin", btn);
-        }
-      }
-    },
-    {
-      hostname: "www.pcgamingwiki.com",
-      getAppId: () => {
-        const steamLinks = document.querySelectorAll(
-          'a[href*="store.steampowered.com/app/"]'
-        );
-        for (const link of steamLinks) {
-          const match = link.href.match(/\/app\/(\d+)/);
-          if (match) return match[1];
-        }
-        return null;
-      },
-      inject: (link) => {
-        const container = document.querySelector(".template-infobox-icons");
-        if (container) {
-          console.log("[SGDB Link] Injecting link on PCGamingWiki");
-          const btn = document.createElement("a");
-          btn.href = link;
-          btn.target = "_blank";
-          btn.className = "svg-icon template-infobox-icon";
-          btn.title = "View on SteamGridDB";
-          const span = document.createElement("span");
-          const img = document.createElement("img");
-          img.className = "ico16";
-          img.src = SGDB_ICON;
-          img.style.width = "16px";
-          img.style.height = "16px";
-          span.appendChild(img);
-          btn.appendChild(span);
-          container.appendChild(btn);
         }
       }
     }
