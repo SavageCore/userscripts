@@ -1,0 +1,33 @@
+# GGn Link Steam
+
+Adds a button to Steam store pages linking directly to a GazelleGames (GGn) search for the current game.
+
+- **App Name**: Extracted from the URL.
+- **Release Year**: Extracted from the Steam store date element.
+- **Styling**: Mimics native Steam store buttons.
+- **Icon**: Uses the GGn favicon.
+
+## Installation
+
+1. Install a userscript manager like [Violentmonkey](https://violentmonkey.github.io/), [Greasemonkey](https://www.greasespot.net/), or [ScriptCat](https://scriptcat.org/).
+2. Click [**Install**](https://github.com/savagecore/userscripts/raw/main/ggn-link-steam/dist/ggn-link-steam.user.js) to install the built script.
+
+## Development
+
+```bash
+pnpm install
+pnpm run dev    # Watch and serve the userscript (may hit CSP issues)
+pnpm run watch  # Watch and build (alternative for CSP issues)
+pnpm run build  # Build the production userscript
+pnpm run fix    # Lint and format the code
+```
+
+## Releasing
+
+To create a new release (bump version and update built script):
+
+```bash
+pnpm version patch --no-git-tag-version # or minor, or major
+```
+
+The version bump will automatically trigger a build, ensuring `dist/ggn-link-steam.user.js` is updated.

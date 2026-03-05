@@ -1,0 +1,17 @@
+{
+  "name": "userscripts",
+  "private": true,
+  "description": "Userscript collection",
+  "scripts": {
+    "prepare": "husky",
+    "lint": "pnpm -r run lint",
+    "lint:fix": "pnpm -r run lint:fix"
+  },
+  "devDependencies": {
+    "husky": "^9.1.5",
+    "lint-staged": "^15.2.10"
+  },
+  "lint-staged": {
+    "*.ts": "pnpm -r run lint:fix"
+  }
+}
