@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GGn Link Steam
 // @namespace    https://github.com/savagecore
-// @version      0.0.0
+// @version      0.1.0
 // @author       savagecore
 // @description  Adds a link to GGn search on Steam store pages
 // @icon         https://gazellegames.net/favicon.ico
