@@ -1,5 +1,7 @@
 # SteamGridDB Link
 
+[[Changelog](./CHANGELOG.md)]
+
 Adds a button to PCGamingWiki, Steam store pages, and SteamDB linking directly to the corresponding game on [SteamGridDB](https://www.steamgriddb.com/).
 
 ## Features

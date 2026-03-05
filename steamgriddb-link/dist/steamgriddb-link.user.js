@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         SteamGridDB Link
 // @namespace    https://github.com/savagecore
-// @version      0.0.0
+// @version      0.1.0
 // @author       savagecore
 // @description  Adds a link to SteamGridDB on Steam store pages
 // @icon         https://www.steamgriddb.com/static/img/logo-512.png
