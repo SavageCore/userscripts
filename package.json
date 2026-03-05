@@ -4,14 +4,16 @@
   "description": "Userscript collection",
   "scripts": {
     "prepare": "husky",
-    "lint": "pnpm -r run lint",
-    "lint:fix": "pnpm -r run lint:fix"
+    "lint": "pnpm -r run lint && prettier --check *.md .github/workflows/*.yml",
+    "lint:fix": "pnpm -r run lint:fix && prettier --write *.md .github/workflows/*.yml"
   },
   "devDependencies": {
     "husky": "^9.1.5",
-    "lint-staged": "^15.2.10"
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.8.1"
   },
   "lint-staged": {
-    "*.ts": "pnpm -r run lint:fix"
+    "**/*.ts": "pnpm -r run lint:fix",
+    "**/*.{md,yml}": "prettier --write"
   }
 }

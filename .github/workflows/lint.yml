@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "**.ts"
+      - "**.md"
       - "package.json"
       - "pnpm-lock.yaml"
       - ".github/workflows/lint.yml"
@@ -12,6 +13,7 @@ on:
     branches: [main]
     paths:
       - "**.ts"
+      - "**.md"
       - "package.json"
       - "pnpm-lock.yaml"
       - ".github/workflows/lint.yml"
