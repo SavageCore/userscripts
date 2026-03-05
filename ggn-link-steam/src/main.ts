@@ -1,10 +1,14 @@
 type SiteConfig = {
   appName: () => string;
   year: () => string;
-  insertBefore: () => Element | null;
+  getInsertTarget: () => Element | null;
   buttonClass: string;
   tooltipAttr: string;
-  extraStyles?: (btn: HTMLAnchorElement, img: HTMLImageElement) => void;
+  extraStyles?: (
+    btn: HTMLAnchorElement,
+    img: HTMLImageElement,
+    span: HTMLSpanElement,
+  ) => void;
 };
 
 const GGN_ICON =
@@ -46,13 +50,25 @@ const addGgnLink = () => {
           ""
         );
       },
-      insertBefore: () =>
+      getInsertTarget: () =>
+        document.querySelector(
+          'a.btn_medium[href*="steamcommunity.com/app/"]',
+        ) ||
         document.querySelector(".apphub_OtherSiteInfo")?.firstElementChild ||
         null,
       buttonClass: "btnv6_blue_hoverfade btn_medium",
       tooltipAttr: "data-tooltip-text",
-      extraStyles: (btn) => {
+      extraStyles: (btn, _img, span) => {
         btn.style.marginRight = "0.28em";
+        btn.style.height = "30px";
+        btn.style.display = "inline-flex";
+        btn.style.alignItems = "center";
+        btn.style.justifyContent = "center";
+        btn.style.verticalAlign = "top";
+        span.style.padding = "0 15px";
+        span.style.display = "flex";
+        span.style.alignItems = "center";
+        span.style.justifyContent = "center";
       },
     },
     "steamdb.info": {
@@ -61,16 +77,11 @@ const addGgnLink = () => {
         Array.from(document.querySelectorAll("td"))
           .find((td) => td.textContent?.includes("Release Date"))
           ?.nextElementSibling?.textContent?.match(/\d{4}/)?.[0] || "",
-      insertBefore: () => {
-        const rin = document.querySelector('a[href*="cs.rin.ru"]');
-        return rin
-          ? rin.nextElementSibling
-          : document.querySelector(".app-links")?.firstElementChild || null;
-      },
+      getInsertTarget: () =>
+        document.querySelector("nav.app-links")?.firstElementChild || null,
       buttonClass: "btn tooltipped tooltipped-s",
       tooltipAttr: "aria-label",
-      extraStyles: (btn, img) => {
-        btn.style.marginRight = "0.28em";
+      extraStyles: (_btn, img) => {
         img.style.width = "16px";
         img.style.height = "16px";
       },
@@ -93,15 +104,9 @@ const addGgnLink = () => {
         }
         return "";
       },
-      insertBefore: () => {
-        const rin = document.querySelector(
-          '.template-infobox-icons a[href*="cs.rin.ru"]',
-        );
-        return rin
-          ? rin.nextElementSibling
-          : document.querySelector(".template-infobox-icons")
-              ?.firstElementChild || null;
-      },
+      getInsertTarget: () =>
+        document.querySelector(".template-infobox-icons")?.firstElementChild ||
+        null,
       buttonClass: "svg-icon template-infobox-icon",
       tooltipAttr: "title",
     },
@@ -135,16 +140,22 @@ const addGgnLink = () => {
   img.className = "ico16";
   img.style.verticalAlign = "middle";
 
-  if (config.extraStyles) config.extraStyles(btn, img);
+  if (config.extraStyles) config.extraStyles(btn, img, span);
 
   span.appendChild(img);
   btn.appendChild(span);
 
-  const target = config.insertBefore();
+  const target = config.getInsertTarget();
   if (target) {
     target.insertAdjacentElement("beforebegin", btn);
   } else if (host.includes("steampowered.com")) {
     const parent = document.querySelector(".apphub_OtherSiteInfo");
+    if (parent) parent.appendChild(btn);
+  } else if (host.includes("steamdb.info")) {
+    const parent = document.querySelector("nav.app-links");
+    if (parent) parent.appendChild(btn);
+  } else if (host.includes("pcgamingwiki.com")) {
+    const parent = document.querySelector(".template-infobox-icons");
     if (parent) parent.appendChild(btn);
   }
 };

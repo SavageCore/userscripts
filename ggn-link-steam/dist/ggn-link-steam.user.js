@@ -42,24 +42,31 @@
           if (ea && rel && ea !== rel) return `${ea}-${rel}`;
           return rel || ea || document.querySelector(".date")?.textContent?.match(/\d{4}/)?.[0] || "";
         },
-        insertBefore: () => document.querySelector(".apphub_OtherSiteInfo")?.firstElementChild || null,
+        getInsertTarget: () => document.querySelector(
+          'a.btn_medium[href*="steamcommunity.com/app/"]'
+        ) || document.querySelector(".apphub_OtherSiteInfo")?.firstElementChild || null,
         buttonClass: "btnv6_blue_hoverfade btn_medium",
         tooltipAttr: "data-tooltip-text",
-        extraStyles: (btn2) => {
+        extraStyles: (btn2, _img, span2) => {
           btn2.style.marginRight = "0.28em";
+          btn2.style.height = "30px";
+          btn2.style.display = "inline-flex";
+          btn2.style.alignItems = "center";
+          btn2.style.justifyContent = "center";
+          btn2.style.verticalAlign = "top";
+          span2.style.padding = "0 15px";
+          span2.style.display = "flex";
+          span2.style.alignItems = "center";
+          span2.style.justifyContent = "center";
         }
       },
       "steamdb.info": {
         appName: () => document.querySelector("h1")?.textContent?.trim() || "",
         year: () => Array.from(document.querySelectorAll("td")).find((td) => td.textContent?.includes("Release Date"))?.nextElementSibling?.textContent?.match(/\d{4}/)?.[0] || "",
-        insertBefore: () => {
-          const rin = document.querySelector('a[href*="cs.rin.ru"]');
-          return rin ? rin.nextElementSibling : document.querySelector(".app-links")?.firstElementChild || null;
-        },
+        getInsertTarget: () => document.querySelector("nav.app-links")?.firstElementChild || null,
         buttonClass: "btn tooltipped tooltipped-s",
         tooltipAttr: "aria-label",
-        extraStyles: (btn2, img2) => {
-          btn2.style.marginRight = "0.28em";
+        extraStyles: (_btn, img2) => {
           img2.style.width = "16px";
           img2.style.height = "16px";
         }
@@ -82,12 +89,7 @@
           }
           return "";
         },
-        insertBefore: () => {
-          const rin = document.querySelector(
-            '.template-infobox-icons a[href*="cs.rin.ru"]'
-          );
-          return rin ? rin.nextElementSibling : document.querySelector(".template-infobox-icons")?.firstElementChild || null;
-        },
+        getInsertTarget: () => document.querySelector(".template-infobox-icons")?.firstElementChild || null,
         buttonClass: "svg-icon template-infobox-icon",
         tooltipAttr: "title"
       }
@@ -113,14 +115,20 @@
     img.src = GGN_ICON;
     img.className = "ico16";
     img.style.verticalAlign = "middle";
-    if (config.extraStyles) config.extraStyles(btn, img);
+    if (config.extraStyles) config.extraStyles(btn, img, span);
     span.appendChild(img);
     btn.appendChild(span);
-    const target = config.insertBefore();
+    const target = config.getInsertTarget();
     if (target) {
       target.insertAdjacentElement("beforebegin", btn);
     } else if (host.includes("steampowered.com")) {
       const parent = document.querySelector(".apphub_OtherSiteInfo");
+      if (parent) parent.appendChild(btn);
+    } else if (host.includes("steamdb.info")) {
+      const parent = document.querySelector("nav.app-links");
+      if (parent) parent.appendChild(btn);
+    } else if (host.includes("pcgamingwiki.com")) {
+      const parent = document.querySelector(".template-infobox-icons");
       if (parent) parent.appendChild(btn);
     }
   };

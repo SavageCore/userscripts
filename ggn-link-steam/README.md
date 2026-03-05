@@ -1,6 +1,6 @@
 # GGn Link Steam
 
-Adds a button to Steam store pages linking directly to a GazelleGames (GGn) search for the current game.
+Adds a button to PCGamingWiki, Steam store pages, and SteamDB linking directly to a GazelleGames (GGn) search for the current game.
 
 - **App Name**: Extracted from the URL.
 - **Release Year**: Extracted from the Steam store date element.
