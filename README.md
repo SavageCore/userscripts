@@ -5,6 +5,7 @@ A collection of small userscripts for various websites.
 ## Scripts
 
 - [GGn Link Steam](./ggn-link-steam) - Adds a GGn search button to PCGamingWiki, Steam store pages, and SteamDB.
+- [SteamGridDB Link](./steamgriddb-link) - Adds a link to SteamGridDB on PCGamingWiki, Steam store pages, and SteamDB.
 
 ## Getting Started
 
