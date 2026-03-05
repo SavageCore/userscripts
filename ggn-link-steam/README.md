@@ -1,5 +1,7 @@
 # GGn Link Steam
 
+[[Changelog](./CHANGELOG.md)]
+
 Adds a button to PCGamingWiki, Steam store pages, and SteamDB linking directly to a GazelleGames (GGn) search for the current game.
 
 - **App Name**: Extracted from the URL.
